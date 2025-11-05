@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #050a0f;
+    --foreground: #f0f9ff;
+  }
+
+  * {
+    @apply border-dark-light;
+  }
+
+  body {
+    @apply bg-dark-primary text-text-primary;
+  }
+}
+
