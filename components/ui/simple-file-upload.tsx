@@ -58,70 +58,64 @@ export function SimpleFileUpload({
 
   return (
     <div className="w-full">
-      <label className="text-xs text-text-secondary mb-2 block">{label}</label>
-      
-      <div
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        onClick={() => fileInputRef.current?.click()}
-        className={`
-          relative border-2 border-dashed rounded-lg p-4 cursor-pointer transition-all
-          ${isDragging 
-            ? 'border-accent-teal bg-accent-teal/5' 
-            : 'border-dark-light hover:border-dark-hover'
-          }
-        `}
-      >
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept={accept}
-          multiple={maxFiles > 1}
-          onChange={(e) => handleFileChange(e.target.files)}
-          className="hidden"
-        />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={accept}
+        multiple={maxFiles > 1}
+        onChange={(e) => handleFileChange(e.target.files)}
+        className="hidden"
+      />
 
-        {files.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-2">
-            <Upload className={`size-6 mb-2 ${isDragging ? 'text-accent-teal' : 'text-text-secondary'}`} />
-            <p className="text-sm text-text-secondary">
-              {isDragging ? '释放文件' : '点击或拖拽文件上传'}
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            <AnimatePresence>
-              {files.map((file, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="flex items-center justify-between p-2 bg-dark-primary rounded-lg"
-                >
-                  <div className="flex items-center gap-2 flex-1 min-w-0">
-                    <FileText className="size-4 text-accent-teal flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-text-primary truncate">{file.name}</p>
-                      <p className="text-xs text-text-secondary">{formatFileSize(file.size)}</p>
-                    </div>
+      {files.length === 0 ? (
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className={`
+            w-full px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2
+            ${isDragging 
+              ? 'bg-gradient-to-r from-[#06d6a0]/30 to-[#00b4d8]/30 border-2 border-[#06d6a0] text-[#06d6a0]' 
+              : 'bg-gradient-to-r from-[#06d6a0]/20 to-[#00b4d8]/20 border border-[#06d6a0] text-[#06d6a0] hover:bg-[#06d6a0]/30'
+            }
+          `}
+        >
+          <Upload className="size-4" />
+          {label}
+        </button>
+      ) : (
+        <div className="space-y-2">
+          <AnimatePresence>
+            {files.map((file, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex items-center justify-between p-2 bg-dark-primary rounded-lg border border-dark-light"
+              >
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <FileText className="size-4 text-accent-teal flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-text-primary truncate">{file.name}</p>
+                    <p className="text-xs text-text-secondary">{formatFileSize(file.size)}</p>
                   </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeFile(index);
-                    }}
-                    className="p-1 hover:bg-dark-light rounded transition-colors flex-shrink-0"
-                  >
-                    <X className="size-4 text-text-secondary hover:text-accent-teal" />
-                  </button>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        )}
-      </div>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(index);
+                  }}
+                  className="p-1 hover:bg-dark-light rounded transition-colors flex-shrink-0"
+                >
+                  <X className="size-4 text-text-secondary hover:text-accent-teal" />
+                </button>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 }

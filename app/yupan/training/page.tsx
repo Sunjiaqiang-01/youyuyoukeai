@@ -364,7 +364,7 @@ export default function YupanTrainingPage() {
                     labelPosition="top"
                   />
                   <div className="mt-3 text-center">
-                    <span className="text-xs text-[#8c8c8c]">
+                    <span className="text-xs text-[#d0d0d0]">
                       已选：<span className="text-[#06d6a0]">{ageRange[0]}岁 - {ageRange[1]}岁</span>
                     </span>
                   </div>
@@ -409,7 +409,7 @@ export default function YupanTrainingPage() {
                 <h4 className="text-sm font-semibold text-accent-teal mb-4">消费能力</h4>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs text-text-secondary mb-2 block">星级选择（1-5星）</label>
+                    <label className="text-xs text-[#d0d0d0] mb-2 block">星级选择（1-5星）</label>
                     <StarRating
                       totalStars={5}
                       defaultValue={starRating}
@@ -418,7 +418,7 @@ export default function YupanTrainingPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-text-secondary mb-2 block">
+                    <label className="text-xs text-[#d0d0d0] mb-2 block">
                       月均消费区间：{consumptionRange[0]}-{consumptionRange[1]}元
                     </label>
                     <div className="px-4">
@@ -446,7 +446,7 @@ export default function YupanTrainingPage() {
                 <h4 className="text-sm font-semibold text-accent-teal mb-4">行动轨迹</h4>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs text-text-secondary mb-2 block">地点选择</label>
+                    <label className="text-xs text-[#d0d0d0] mb-2 block">地点选择</label>
                     <div className="flex flex-wrap gap-2">
                       {LOCATIONS.map((location) => (
                         <button
@@ -460,8 +460,8 @@ export default function YupanTrainingPage() {
                           }}
                           className={`px-3 py-1.5 text-sm rounded-lg border transition-all ${
                             selectedLocations.includes(location.id)
-                              ? 'bg-gradient-to-r from-[#06d6a0]/20 to-[#00b4d8]/20 border-[#06d6a0] text-[#06d6a0]'
-                              : 'bg-dark-primary border-dark-light text-text-secondary hover:border-[#2a2a2a]'
+                              ? 'bg-gradient-to-r from-[#06d6a0]/20 to-[#00b4d8]/20 border-[#06d6a0] text-[#06d6a0] font-medium'
+                              : 'bg-dark-primary border-dark-light text-[#d0d0d0] hover:border-[#2a2a2a]'
                           }`}
                         >
                           {location.label}
@@ -502,8 +502,8 @@ export default function YupanTrainingPage() {
                       onClick={() => toggleCarrier(carrier.id)}
                       className={`px-4 py-2 rounded-lg border transition-all ${
                         selectedCarriers.includes(carrier.id)
-                          ? 'bg-gradient-to-r from-[#06d6a0]/20 to-[#00b4d8]/20 border-[#06d6a0] text-[#06d6a0]'
-                          : 'bg-dark-primary border-dark-light text-text-secondary hover:border-[#2a2a2a]'
+                          ? 'bg-gradient-to-r from-[#06d6a0]/20 to-[#00b4d8]/20 border-[#06d6a0] text-[#06d6a0] font-medium'
+                          : 'bg-dark-primary border-dark-light text-[#d0d0d0] hover:border-[#2a2a2a]'
                       }`}
                     >
                       {carrier.label}
