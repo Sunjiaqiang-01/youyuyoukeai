@@ -4,11 +4,11 @@ import { SessionNavBar } from "@/components/ui/sidebar";
 
 export default function ChuangyiPage() {
   return (
-    <div className="flex h-screen w-screen flex-row bg-gradient-to-b from-dark-primary to-dark-secondary">
+    <div className="flex h-screen w-screen flex-row bg-dark-primary">
       <SessionNavBar />
       <main className="flex h-screen grow flex-col overflow-auto ml-[3.05rem]">
         <div className="container mx-auto px-8 py-16">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-accent-cyan to-accent-teal bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-accent-bright via-accent-teal to-accent-cyan bg-clip-text text-transparent">
             ✨ 创意创作师
           </h1>
           <p className="text-lg text-text-secondary mb-8">

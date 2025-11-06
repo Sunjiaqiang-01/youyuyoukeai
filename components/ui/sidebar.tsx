@@ -154,7 +154,7 @@ export function SessionNavBar() {
       onMouseLeave={() => setIsCollapsed(true)}
     >
       <motion.div
-        className={`relative z-40 flex text-muted-foreground h-full shrink-0 flex-col bg-[#0a1420] transition-all`}
+        className={`relative z-40 flex text-muted-foreground h-full shrink-0 flex-col bg-[#0d0d0d] transition-all`}
         variants={contentVariants}
       >
         <motion.ul variants={staggerVariants} className="flex h-full flex-col">
@@ -226,7 +226,7 @@ export function SessionNavBar() {
                       className={cn(
                         "flex h-8 w-full flex-row items-center rounded-md px-2 py-1.5   transition hover:bg-muted hover:text-primary",
                         pathname === "/" &&
-                          "bg-[#162332] text-[#14b8a6]",
+                          "bg-[#1a1a1a] text-[#06d6a0]",
                       )}
                     >
                       <Home className="h-4 w-4" />{" "}
@@ -249,7 +249,7 @@ export function SessionNavBar() {
                             onClick={() => setOpenSubmenu(isOpen ? null : menu.id)}
                             className={cn(
                               "flex h-8 w-full flex-row items-center justify-between rounded-md px-2 py-1.5 transition hover:bg-muted hover:text-primary",
-                              isActive && "bg-[#162332] text-[#14b8a6]",
+                              isActive && "bg-[#1a1a1a] text-[#06d6a0]",
                             )}
                           >
                             <div className="flex items-center">
@@ -281,14 +281,14 @@ export function SessionNavBar() {
                                 transition={{ duration: 0.2 }}
                                 className="overflow-hidden"
                               >
-                                <div className="ml-6 mt-1 flex flex-col gap-1 border-l border-[#162332] pl-2">
+                                <div className="ml-6 mt-1 flex flex-col gap-1 border-l border-[#2a2a2a] pl-2">
                                   {menu.submenus.map((submenu) => (
                                     <Link
                                       key={submenu.href}
                                       href={submenu.href}
                                       className={cn(
                                         "flex h-7 items-center rounded-md px-2 py-1 text-sm transition hover:bg-muted hover:text-primary",
-                                        pathname === submenu.href && "bg-[#162332] text-[#14b8a6]"
+                                        pathname === submenu.href && "bg-[#1a1a1a] text-[#06d6a0]"
                                       )}
                                     >
                                       {submenu.name}
