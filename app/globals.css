@@ -17,3 +17,30 @@
   }
 }
 
+@layer utilities {
+  /* 隐藏滚动条 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  /* 自定义暗黑主题滚动条 */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #0a1420;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #06d6a0;
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #00b4d8;
+  }
+}
+

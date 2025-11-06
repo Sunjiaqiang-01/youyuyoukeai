@@ -1,0 +1,112 @@
+"use client";
+ 
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
+ 
+const cn = (...args: any[]) => {
+  return twMerge(clsx(args));
+};
+ 
+export interface DraggableItemProps {
+  id: string;
+  content: React.JSX.Element;
+}
+ 
+export interface DraggableListProps {
+  items: DraggableItemProps[];
+  onChange?: (items: DraggableItemProps[]) => void;
+  className?: string;
+}
+ 
+export const DraggableList: React.FC<DraggableListProps> = ({
+  items: initialItems,
+  onChange,
+  className,
+}) => {
+  const [items, setItems] = useState(initialItems);
+  const [draggedItem, setDraggedItem] = useState<DraggableItemProps | null>(
+    null
+  );
+  const [dragOverItemId, setDragOverItemId] = useState<string | number | null>(
+    null
+  );
+
+  // 监听props变化，同步内部state
+  useEffect(() => {
+    setItems(initialItems);
+  }, [initialItems]);
+ 
+  const handleDragStart = (item: DraggableItemProps) => {
+    setDraggedItem(item);
+  };
+ 
+  const handleDragOver = (e: React.DragEvent, itemId: string | number) => {
+    e.preventDefault();
+    setDragOverItemId(itemId);
+  };
+ 
+  const handleDragEnd = () => {
+    if (!draggedItem || !dragOverItemId) {
+      setDraggedItem(null);
+      setDragOverItemId(null);
+      return;
+    }
+ 
+    const newItems = [...items];
+    const draggedIndex = items.findIndex((item) => item.id === draggedItem.id);
+    const dropIndex = items.findIndex((item) => item.id === dragOverItemId);
+ 
+    newItems.splice(draggedIndex, 1);
+    newItems.splice(dropIndex, 0, draggedItem);
+ 
+    setItems(newItems);
+    onChange?.(newItems);
+    setDraggedItem(null);
+    setDragOverItemId(null);
+  };
+ 
+  return (
+    <div className={cn("flex flex-col gap-2", className)}>
+      <AnimatePresence>
+        {items.map((item) => (
+          <motion.div
+            key={item.id}
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            draggable
+            onDragStart={() => handleDragStart(item)}
+            onDragOver={(e) => handleDragOver(e, item.id)}
+            onDragEnd={handleDragEnd}
+            className={cn(
+              "cursor-grab rounded-lg border bg-[#0a1420] border-[#162332] p-4 shadow-xs transition-colors",
+              dragOverItemId === item.id &&
+                "border-2 border-[#06d6a0] bg-[#162332]",
+              draggedItem?.id === item.id &&
+                "border-2 border-[#2a2a2a] opacity-50"
+            )}
+          >
+            {item.content}
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+};
+ 
+export const DraggableItem: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+}> = ({ children, className }) => {
+  return (
+    <div className={cn("flex items-center gap-2", className)}>
+      <div className="text-[#8c8c8c]">≡</div>
+      {children}
+    </div>
+  );
+};
+
