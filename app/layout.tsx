@@ -1,10 +1,7 @@
-import type { Metadata } from "next";
-import "./globals.css";
+"use client";
 
-export const metadata: Metadata = {
-  title: "有鱼有客AI同事 - 演示网站",
-  description: "AI工具管理后台演示网站",
-};
+import "./globals.css";
+import { ToastProvider } from "@/components/ui/toast-container";
 
 export default function RootLayout({
   children,
@@ -13,7 +10,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <head>
+        <title>有鱼有客AI同事 - 演示网站</title>
+        <meta name="description" content="AI工具管理后台演示网站" />
+      </head>
+      <body>
+        <ToastProvider>
+          {children}
+        </ToastProvider>
+      </body>
     </html>
   );
 }
