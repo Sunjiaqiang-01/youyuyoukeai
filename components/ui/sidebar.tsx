@@ -104,10 +104,7 @@ export function SessionNavBar() {
       name: "销智助理",
       icon: Bot,
       href: "/xiaozhi",
-      submenus: [
-        { name: "系统绑定配置", href: "/xiaozhi/config" },
-        { name: "参数调优", href: "/xiaozhi/params" },
-      ],
+      submenus: [],
     },
     {
       id: "gongguan",
@@ -245,59 +242,78 @@ export function SessionNavBar() {
                       
                       return (
                         <div key={menu.id} className="w-full">
-                          <button
-                            onClick={() => setOpenSubmenu(isOpen ? null : menu.id)}
-                            className={cn(
-                              "flex h-8 w-full flex-row items-center justify-between rounded-md px-2 py-1.5 transition hover:bg-muted hover:text-primary",
-                              isActive && "bg-[#1a1a1a] text-[#06d6a0]",
-                            )}
-                          >
-                            <div className="flex items-center">
-                              <Icon className="h-4 w-4" />
+                          {menu.submenus.length > 0 ? (
+                            <button
+                              onClick={() => setOpenSubmenu(isOpen ? null : menu.id)}
+                              className={cn(
+                                "flex h-8 w-full flex-row items-center justify-between rounded-md px-2 py-1.5 transition hover:bg-muted hover:text-primary",
+                                isActive && "bg-[#1a1a1a] text-[#06d6a0]",
+                              )}
+                            >
+                              <div className="flex items-center">
+                                <Icon className="h-4 w-4" />
+                                <motion.span variants={variants}>
+                                  {!isCollapsed && (
+                                    <p className="ml-2 text-sm font-medium">{menu.name}</p>
+                                  )}
+                                </motion.span>
+                              </div>
                               <motion.span variants={variants}>
+                                {!isCollapsed && (
+                                  <ChevronDown 
+                                    className={cn(
+                                      "h-4 w-4 transition-transform duration-200",
+                                      isOpen && "rotate-180"
+                                    )} 
+                                  />
+                                )}
+                              </motion.span>
+                            </button>
+                          ) : (
+                            <Link
+                              href={menu.href}
+                              className={cn(
+                                "flex h-8 w-full flex-row items-center rounded-md px-2 py-1.5 transition hover:bg-muted hover:text-primary",
+                                isActive && "bg-[#1a1a1a] text-[#06d6a0]",
+                              )}
+                            >
+                              <Icon className="h-4 w-4" />
+                              <motion.li variants={variants}>
                                 {!isCollapsed && (
                                   <p className="ml-2 text-sm font-medium">{menu.name}</p>
                                 )}
-                              </motion.span>
-                            </div>
-                            <motion.span variants={variants}>
-                              {!isCollapsed && (
-                                <ChevronDown 
-                                  className={cn(
-                                    "h-4 w-4 transition-transform duration-200",
-                                    isOpen && "rotate-180"
-                                  )} 
-                                />
-                              )}
-                            </motion.span>
-                          </button>
+                              </motion.li>
+                            </Link>
+                          )}
                           
-                          <AnimatePresence>
-                            {isOpen && !isCollapsed && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="ml-6 mt-1 flex flex-col gap-1 border-l border-[#2a2a2a] pl-2">
-                                  {menu.submenus.map((submenu) => (
-                                    <Link
-                                      key={submenu.href}
-                                      href={submenu.href}
-                                      className={cn(
-                                        "flex h-7 items-center rounded-md px-2 py-1 text-sm transition hover:bg-muted hover:text-primary",
-                                        pathname === submenu.href && "bg-[#1a1a1a] text-[#06d6a0]"
-                                      )}
-                                    >
-                                      {submenu.name}
-                                    </Link>
-                                  ))}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
+                          {menu.submenus.length > 0 && (
+                            <AnimatePresence>
+                              {isOpen && !isCollapsed && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden"
+                                >
+                                  <div className="ml-6 mt-1 flex flex-col gap-1 border-l border-[#2a2a2a] pl-2">
+                                    {menu.submenus.map((submenu) => (
+                                      <Link
+                                        key={submenu.href}
+                                        href={submenu.href}
+                                        className={cn(
+                                          "flex h-7 items-center rounded-md px-2 py-1 text-sm transition hover:bg-muted hover:text-primary",
+                                          pathname === submenu.href && "bg-[#1a1a1a] text-[#06d6a0]"
+                                        )}
+                                      >
+                                        {submenu.name}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          )}
                         </div>
                       );
                     })}

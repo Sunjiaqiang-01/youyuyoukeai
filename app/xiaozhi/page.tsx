@@ -1,38 +1,133 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { SessionNavBar } from "@/components/ui/sidebar";
+import { ChatArea } from "@/components/xiaozhi/chat-area";
+import { ConfigPanel } from "@/components/xiaozhi/config-panel";
+import { ChatSessionSidebar } from "@/components/xiaozhi/chat-session-sidebar";
+import { cn } from "@/lib/utils";
+import {
+  Message, 
+  ChatStorage,
+  loadSessions, 
+  saveSessions,
+  createNewSession,
+  updateSessionMessages,
+  deleteSession,
+  getCurrentSession
+} from "@/lib/chat-storage";
 
 export default function XiaozhiPage() {
+  const [currentStage, setCurrentStage] = useState<'stage1' | 'stage2' | 'stage3'>('stage1');
+  const [storage, setStorage] = useState<ChatStorage>({ sessions: [], currentSessionId: '' });
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
+  // 加载会话数据
+  useEffect(() => {
+    const loadedStorage = loadSessions();
+    setStorage(loadedStorage);
+    const current = getCurrentSession(loadedStorage);
+    if (current) {
+      setMessages(current.messages);
+      setCurrentStage(current.stage);
+    }
+  }, []);
+
+  // 保存会话数据
+  useEffect(() => {
+    if (storage.sessions.length > 0) {
+      const updated = updateSessionMessages(storage, storage.currentSessionId, messages);
+      setStorage(updated);
+      saveSessions(updated);
+    }
+  }, [messages]);
+
+  // 切换会话
+  const handleSessionSelect = (sessionId: string) => {
+    const newStorage = { ...storage, currentSessionId: sessionId };
+    setStorage(newStorage);
+    saveSessions(newStorage);
+    
+    const session = newStorage.sessions.find(s => s.id === sessionId);
+    if (session) {
+      setMessages(session.messages);
+      setCurrentStage(session.stage);
+    }
+  };
+
+  // 新建会话
+  const handleNewSession = () => {
+    const newSession = createNewSession(currentStage);
+    const newStorage = {
+      sessions: [newSession, ...storage.sessions],
+      currentSessionId: newSession.id,
+    };
+    setStorage(newStorage);
+    saveSessions(newStorage);
+    setMessages([]);
+  };
+
+  // 删除会话
+  const handleDeleteSession = (sessionId: string) => {
+    const newStorage = deleteSession(storage, sessionId);
+    setStorage(newStorage);
+    saveSessions(newStorage);
+    
+    const current = getCurrentSession(newStorage);
+    if (current) {
+      setMessages(current.messages);
+      setCurrentStage(current.stage);
+    }
+  };
+
+  // 计算各阶段对话数（统计用户消息数量）
+  const calculateStageCount = (stage: 'stage1' | 'stage2' | 'stage3'): number => {
+    return messages.filter(msg => msg.sender === 'user' && msg.stage === stage).length;
+  };
+
+  const stage1Count = calculateStageCount('stage1');
+  const stage2Count = calculateStageCount('stage2');
+  const stage3Count = calculateStageCount('stage3');
+
   return (
-    <div className="flex h-screen w-screen flex-row bg-dark-primary">
+    <div className="flex h-screen bg-[#050a0f]">
+      {/* 左侧：全局导航（悬停展开） */}
       <SessionNavBar />
-      <main className="flex h-screen grow flex-col overflow-auto ml-[3.05rem]">
-        <div className="container mx-auto px-8 py-16">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-accent-bright via-accent-teal to-accent-cyan bg-clip-text text-transparent">
-            🤖 销智助理
-          </h1>
-          <p className="text-lg text-text-secondary mb-8">
-            AI拟人化信任破冰
-          </p>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="p-6 rounded-xl bg-dark-secondary border border-dark-light">
-              <h3 className="text-xl font-semibold text-accent-teal mb-4">系统绑定配置</h3>
-              <p className="text-text-secondary">
-                配置抖音授权、行业选择、广告视频、销售话术等基础信息
-              </p>
-            </div>
-            
-            <div className="p-6 rounded-xl bg-dark-secondary border border-dark-light">
-              <h3 className="text-xl font-semibold text-accent-teal mb-4">参数调优</h3>
-              <p className="text-text-secondary">
-                调整模型参数、输入输出设置、技能接入等高级配置
-              </p>
-            </div>
-          </div>
-        </div>
-      </main>
+      
+      {/* 历史会话侧边栏（固定在 SessionNavBar 右侧，可折叠） */}
+      <ChatSessionSidebar
+        sessions={storage.sessions}
+        currentSessionId={storage.currentSessionId}
+        onSessionSelect={handleSessionSelect}
+        onNewSession={handleNewSession}
+        onDeleteSession={handleDeleteSession}
+        isExpanded={isSidebarExpanded}
+        onToggleExpand={() => setIsSidebarExpanded(!isSidebarExpanded)}
+      />
+
+      {/* 主内容区：聊天 + 配置（无缝连接，根据侧边栏状态调整） */}
+      <div 
+        className="fixed top-0 right-0 bottom-0 flex h-screen transition-all duration-300"
+        style={{
+          left: isSidebarExpanded ? 'calc(3.05rem + 280px)' : 'calc(3.05rem + 80px)'
+        }}
+      >
+        <ChatArea 
+          messages={messages}
+          setMessages={setMessages}
+          currentStage={currentStage}
+          onStageClick={setCurrentStage}
+          stageCounts={{
+            stage1: stage1Count,
+            stage2: stage2Count,
+            stage3: stage3Count,
+          }}
+        />
+
+        {/* 右侧：配置面板 */}
+        <ConfigPanel currentStage={currentStage} />
+      </div>
     </div>
   );
 }
-

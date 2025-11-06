@@ -4,8 +4,54 @@
 
 @layer base {
   :root {
-    --background: #000000;
-    --foreground: #ffffff;
+    /* 基础颜色 - 暗黑渐变主题 */
+    --background: #0a0a0a;
+    --foreground: #f0f9ff;
+    
+    /* 卡片和容器 */
+    --card: #0d0d0d;
+    --card-foreground: #f0f9ff;
+    
+    /* Popover和下拉菜单 */
+    --popover: #0a0a0a;
+    --popover-foreground: #f0f9ff;
+    
+    /* 主色调 - 青绿渐变 */
+    --primary: #06d6a0;
+    --primary-foreground: #0a0a0a;
+    
+    /* 次要色 */
+    --secondary: #121212;
+    --secondary-foreground: #f0f9ff;
+    
+    /* 柔和色 */
+    --muted: #1a1a1a;
+    --muted-foreground: #a0a0a0;
+    
+    /* 强调色 */
+    --accent: #1a1a1a;
+    --accent-foreground: #06d6a0;
+    
+    /* 破坏性操作 */
+    --destructive: #ff6b6b;
+    --destructive-foreground: #f0f9ff;
+    
+    /* 边框 */
+    --border: #1a1a1a;
+    --input: #1a1a1a;
+    
+    /* 焦点环 */
+    --ring: #06d6a0;
+    
+    /* 图表颜色 */
+    --chart-1: #06d6a0;
+    --chart-2: #00b4d8;
+    --chart-3: #14b8a6;
+    --chart-4: #00f5ff;
+    --chart-5: #ff6b6b;
+    
+    /* 圆角 */
+    --radius: 0.75rem;
   }
 
   * {
@@ -14,6 +60,25 @@
 
   body {
     @apply bg-dark-primary text-text-primary;
+  }
+  
+  /* 全局滚动条兜底样式 - 确保至少有基本美化 */
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background: rgba(6, 214, 160, 0.3);
+    border-radius: 10px;
+  }
+  
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 214, 160, 0.6);
   }
 }
 
@@ -26,21 +91,32 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
-  /* 自定义暗黑主题滚动条 */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: #0a1420;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #06d6a0;
-    border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #00b4d8;
-  }
+}
+
+/* 自定义滚动条样式 - 使用rgba()确保Chrome兼容性 */
+/* Webkit浏览器 (Chrome, Edge, Safari) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-radius: 10px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(6, 214, 160, 0.3) !important; /* 青色 30% 透明度 */
+  border-radius: 10px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 214, 160, 0.6) !important; /* 青色 60% 透明度 */
+}
+
+/* Firefox浏览器 */
+.custom-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(6, 214, 160, 0.3) transparent !important;
 }
 
