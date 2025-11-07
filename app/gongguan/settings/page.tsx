@@ -202,7 +202,7 @@ export default function GongguanSettingsPage() {
                 {/* 说明文字 */}
                 <div className="p-3 rounded-lg bg-dark-primary border border-dark-light">
                   <p className="text-xs text-[#a0a0a0] leading-relaxed">
-                    点击"重置环境"后，系统将重新加载浏览器指纹环境，预计耗时15秒。完成后显示"连接成功"。
+                    点击&ldquo;重置环境&rdquo;后，系统将重新加载浏览器指纹环境，预计耗时15秒。完成后显示&ldquo;连接成功&rdquo;。
                   </p>
                 </div>
               </div>

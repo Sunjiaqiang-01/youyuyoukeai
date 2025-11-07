@@ -469,7 +469,7 @@ export default function TemplatesPage() {
                       {insight.industry}
                     </div>
                     <div className="text-[#d0d0d0] text-sm">
-                      → "{insight.idea}"
+                      → &ldquo;{insight.idea}&rdquo;
                     </div>
                   </div>
                 ))}

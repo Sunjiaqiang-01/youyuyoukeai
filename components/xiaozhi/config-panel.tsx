@@ -127,26 +127,23 @@ export function ConfigPanel({ currentStage }: ConfigPanelProps) {
           </div>
 
           <div className="space-y-3">
-            <Label className="text-sm text-[#d0d0d0] font-medium">销售话术</Label>
             <SimpleFileUpload 
-              onFileSelect={setSalesScript}
-              placeholder="上传销售话术文件"
+              label="销售话术"
+              onFileSelect={(files) => setSalesScript(files[0] || null)}
             />
           </div>
 
           <div className="space-y-3">
-            <Label className="text-sm text-[#d0d0d0] font-medium">销售百问百答</Label>
             <SimpleFileUpload 
-              onFileSelect={setSalesQA}
-              placeholder="上传问答文件"
+              label="销售百问百答"
+              onFileSelect={(files) => setSalesQA(files[0] || null)}
             />
           </div>
 
           <div className="space-y-3">
-            <Label className="text-sm text-[#d0d0d0] font-medium">产品介绍</Label>
             <SimpleFileUpload 
-              onFileSelect={setProductIntro}
-              placeholder="上传产品介绍文件"
+              label="产品介绍"
+              onFileSelect={(files) => setProductIntro(files[0] || null)}
             />
           </div>
         </div>

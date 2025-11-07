@@ -345,7 +345,7 @@ export default function DigitalHumanPage() {
                     defaultValue={priceLevel}
                     onChange={setPriceLevel}
                   />
-                  <p className="text-xs text-[#a0a0a0] mt-2">💡 影响数字人话术风格：低价侧重"性价比"，高价侧重"品质感"</p>
+                  <p className="text-xs text-[#a0a0a0] mt-2">💡 影响数字人话术风格：低价侧重&ldquo;性价比&rdquo;，高价侧重&ldquo;品质感&rdquo;</p>
                 </div>
 
                 {/* 应用场景 */}

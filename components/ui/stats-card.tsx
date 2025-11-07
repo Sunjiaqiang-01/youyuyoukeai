@@ -43,7 +43,7 @@ const AnimatedValue = ({ value, prefix = "", postfix = "" }: { value: number; pr
   useEffect(() => {
     const unsubscribe = spring.on("change", (latest) => {
       if (ref.current) {
-        ref.current.textContent = `${prefix}${Intl.NumberFormat('en-US').format(latest.toFixed(0))}${postfix}`;
+        ref.current.textContent = `${prefix}${Intl.NumberFormat('en-US').format(Math.round(latest))}${postfix}`;
       }
     });
     return () => unsubscribe();
@@ -74,7 +74,7 @@ export const StatsCard = React.forwardRef<HTMLDivElement, StatsCardProps>(
       hidden: { height: "0%" },
       visible: {
         height: "var(--bar-height, 0%)",
-        transition: { type: "spring", damping: 15, stiffness: 100 },
+        transition: { type: "spring" as const, damping: 15, stiffness: 100 },
       },
     };
 
