@@ -201,7 +201,7 @@ export function CompactChinaRegionSelector({
               className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-[#06d6a0]/20 to-[#00b4d8]/20 border border-[#06d6a0]/30 rounded-lg"
             >
               <span className="text-xs text-[#06d6a0]">
-                {region.province}>{region.city}>{region.district}
+                {region.province}{'>'}{region.city}{'>'}{region.district}
               </span>
               <button
                 onClick={() => removeRegion(index)}
